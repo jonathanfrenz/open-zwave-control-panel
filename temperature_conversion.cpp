@@ -9,16 +9,20 @@ mqtt_tempconv::mqtt_tempconv() : mosquittopp("dumb id")
 {
 	int keepalive = 60;
 
+	printf("Got to first part here\n");
 	std::ifstream infile("userpass.txt");
 	char *user = NULL;
 	char *pass = NULL;
 	infile >> user >> pass;
+	printf("setting user and pass %s %s\n", user, pass);
 	username_pw_set(user, pass);
 	
 	/* Connect immediately. This could also be done by calling
 	 * mqtt_tempconv->connect(). */
 	tls_set("/etc/ssl/certs/ca-certificates.crt");
+	printf("Connecting\n");
 	connect("m13.cloudmqtt.com", 22183, keepalive);
+	printf("Home sweet home\n");
 };
 
 mqtt_tempconv::~mqtt_tempconv()
