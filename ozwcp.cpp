@@ -463,13 +463,14 @@ uint8 MyNode::getRemoved()
 	return 0;
 }
 
-char[200] msgbuf;
 //-----------------------------------------------------------------------------
 // <OnNotification>
 // Callback that is triggered when a value, group or node changes
 //-----------------------------------------------------------------------------
 void OnNotification (Notification const* _notification, void* _context)
 {
+	char msgbuf[200];
+	
 	ValueID id = _notification->GetValueID();
 	switch (_notification->GetType()) {
 		case Notification::Type_ValueAdded:
