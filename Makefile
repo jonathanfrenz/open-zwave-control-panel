@@ -70,7 +70,7 @@ webserver.o: webserver.h ozwcp.h $(OPENZWAVE)/cpp/src/Options.h $(OPENZWAVE)/cpp
 	$(OPENZWAVE)/cpp/src/Notification.h $(OPENZWAVE)/cpp/src/platform/Log.h
 
 ozwcp:	temperature_conversion.o ozwcp.o webserver.o zwavelib.o $(LIBZWAVE)
-	$(LD) -o $@ $(LDFLAGS) ozwcp.o webserver.o zwavelib.o $(LIBS)
+	$(LD) -o $@ $(LDFLAGS) temperature_conversion.o ozwcp.o webserver.o zwavelib.o $(LIBS)
 
 mqtt_temperature_conversion : main.o temperature_conversion.o
 	${CXX} $^ -o $@ ${LDFLAGS} $(LIBS)
