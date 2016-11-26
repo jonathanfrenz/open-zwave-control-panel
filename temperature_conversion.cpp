@@ -11,15 +11,15 @@ mqtt_tempconv::mqtt_tempconv() : mosquittopp("dumb id")
 
 	printf("Got to first part here\n");
 	std::ifstream filein("userpass.txt");
-	char *user = NULL;
-	char *pass = NULL;
+	std::string user = NULL;
+	std::pass = NULL;
 	
 	printf("Reading line\n");
 	std::getline(filein, user);
 	std::getline(filein, pass);
 	
-	printf("setting user and pass %s %s\n", user, pass);
-	username_pw_set(user, pass);
+	printf("setting user and pass %s %s\n", user.c_str(), pass.c_str());
+	username_pw_set(user.c_str(), pass.c_str());
 	
 	/* Connect immediately. This could also be done by calling
 	 * mqtt_tempconv->connect(). */
