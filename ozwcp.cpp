@@ -823,7 +823,7 @@ int32 main(int32 argc, char* argv[])
 		wserver = new Webserver(webport);
 	}
 	
-	Manager::Get()->AddDriver("/dev/ttyUSB0");
+	//Manager::Get()->AddDriver("/dev/ttyUSB0");
 
 	while (!done) {	// now wait until we are done
 		sleep(1);
