@@ -12,7 +12,7 @@ mqtt_tempconv::mqtt_tempconv() : mosquittopp("dumb id")
 	printf("Got to first part here\n");
 	std::ifstream filein("userpass.txt");
 	std::string user = NULL;
-	std::pass = NULL;
+	std::string pass = NULL;
 	
 	printf("Reading line\n");
 	std::getline(filein, user);
