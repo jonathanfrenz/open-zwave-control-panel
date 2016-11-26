@@ -817,10 +817,10 @@ int32 main(int32 argc, char* argv[])
 	while (!done) {	// now wait until we are done
 		sleep(1);
 		
-	/*	rc = tempconv->loop();
+		rc = tempconv->loop();
 		if(rc){
 			tempconv->reconnect();
-		}*/
+		}
 	}
 
 	mosqpp::lib_cleanup();
