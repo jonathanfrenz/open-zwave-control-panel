@@ -10,10 +10,14 @@ mqtt_tempconv::mqtt_tempconv() : mosquittopp("dumb id")
 	int keepalive = 60;
 
 	printf("Got to first part here\n");
-	std::ifstream infile("userpass.txt");
+	std::ifstream filein("userpass.txt");
 	char *user = NULL;
 	char *pass = NULL;
-	infile >> user >> pass;
+	
+	printf("Reading line\n");
+	std::getline(filein, user);
+	std::getline(filein, pass);
+	
 	printf("setting user and pass %s %s\n", user, pass);
 	username_pw_set(user, pass);
 	
