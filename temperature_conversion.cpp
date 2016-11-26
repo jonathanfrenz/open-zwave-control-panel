@@ -3,11 +3,18 @@
 
 #include "temperature_conversion.h"
 #include <mosquittopp.h>
+#include <fstream>
 
 mqtt_tempconv::mqtt_tempconv() : mosquittopp("dumb id")
 {
 	int keepalive = 60;
 
+	std::ifstream infile("userpass.txt");
+	char *user = NULL;
+	char *pass = NULL;
+	infile >> user >> pass;
+	username_pw_set(user, pass);
+	
 	/* Connect immediately. This could also be done by calling
 	 * mqtt_tempconv->connect(). */
 	tls_set("/etc/ssl/certs/ca-certificates.crt");

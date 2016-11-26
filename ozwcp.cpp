@@ -55,6 +55,8 @@
 #include "ozwcp.h"
 #include "webserver.h"
 
+#include "temperature_conversion.h"
+
 using namespace OpenZWave;
 
 static Webserver *wserver;
@@ -772,6 +774,8 @@ int32 main(int32 argc, char* argv[])
 	extern char *optarg;
 	long webport = DEFAULT_PORT;
 	char *ptr;
+	class mqtt_tempconv *tempconv;
+	int rc;
 
 	while ((i = getopt(argc, argv, "dp:")) != EOF)
 		switch (i) {
@@ -800,6 +804,10 @@ int32 main(int32 argc, char* argv[])
 	Manager::Get()->AddWatcher(OnNotification, wserver);
 	Manager::Get()->AddDriver("/dev/ttyUSB0");
 
+	mosqpp::lib_init();
+
+	tempconv = new mqtt_tempconv();
+		
 	while (!wserver->isReady()) {
 		delete wserver;
 		sleep(2);
@@ -808,8 +816,14 @@ int32 main(int32 argc, char* argv[])
 
 	while (!done) {	// now wait until we are done
 		sleep(1);
+		
+		rc = tempconv->loop();
+		if(rc){
+			tempconv->reconnect();
+		}
 	}
 
+	mosqpp::lib_cleanup();
 	delete wserver;
 	Manager::Get()->RemoveWatcher(OnNotification, NULL);
 	Manager::Destroy();
