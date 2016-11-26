@@ -18,7 +18,7 @@ mqtt_tempconv::mqtt_tempconv() : mosquittopp("dumb id")
 	std::getline(filein, user);
 	std::getline(filein, pass);
 	
-	printf("setting user and pass %s %s\n", user.c_str(), pass.c_str());
+	printf("setting user and pass\n");
 	username_pw_set(user.c_str(), pass.c_str());
 	
 	/* Connect immediately. This could also be done by calling
@@ -46,16 +46,17 @@ void mqtt_tempconv::on_message(const struct mosquitto_message *message)
 {
 	double temp_celsius, temp_farenheit;
 	char buf[51];
-
+	printf("Got: %s\n", message->payload);
+/*
 	if(!strcmp(message->topic, "test/cool")){
 		memset(buf, 0, 51*sizeof(char));
-		/* Copy N-1 bytes to ensure always 0 terminated. */
+		
 		memcpy(buf, message->payload, 50*sizeof(char));
 		//temp_celsius = atof(buf);
 		//temp_farenheit = temp_celsius*9.0/5.0 + 32.0;
-		printf(buf);
+		printf("Got: %s\n", buf);
 		//publish(NULL, "temperature/farenheit", strlen(buf), buf);
-	}
+	}*/
 }
 
 void mqtt_tempconv::on_subscribe(int mid, int qos_count, const int *granted_qos)
