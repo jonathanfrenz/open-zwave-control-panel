@@ -502,7 +502,7 @@ void OnNotification (Notification const* _notification, void* _context)
 					valueGenreStr(id.GetGenre()), cclassStr(id.GetCommandClassId()), id.GetInstance(),
 					id.GetIndex(), valueTypeStr(id.GetType()));
 					
-			Manager::Get()->GetValueAsString(id, &into)
+			Manager::Get()->GetValueAsString(id, &into);
 			sprintf(msgbuf, "%d %s %d %s", _notification->GetNodeId(), cclassStr(id.GetCommandClassId()), id.GetIndex(), into.c_str());
 			tempconv->publish(NULL, "iot/test", strlen(msgbuf), msgbuf);
 			
@@ -516,7 +516,8 @@ void OnNotification (Notification const* _notification, void* _context)
 					valueGenreStr(id.GetGenre()), cclassStr(id.GetCommandClassId()), id.GetInstance(),
 					id.GetIndex(), valueTypeStr(id.GetType()));
 					
-			sprintf(msgbuf, "%d %s %d", _notification->GetNodeId(), cclassStr(id.GetCommandClassId()), id.GetIndex());
+			Manager::Get()->GetValueAsString(id, &into);
+			sprintf(msgbuf, "%d %s %d %s", _notification->GetNodeId(), cclassStr(id.GetCommandClassId()), id.GetIndex(), into.c_str());
 			tempconv->publish(NULL, "iot/test", strlen(msgbuf), msgbuf);
 			
 			pthread_mutex_lock(&nlock);
