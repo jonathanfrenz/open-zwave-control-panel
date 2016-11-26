@@ -38,7 +38,7 @@ void mqtt_tempconv::on_connect(int rc)
 	printf("Connected with code %d.\n", rc);
 	if(rc == 0){
 		/* Only attempt to subscribe on a successful connect. */
-		subscribe(NULL, "test/cool");
+		subscribe(NULL, "iot/test");
 	}
 }
 
