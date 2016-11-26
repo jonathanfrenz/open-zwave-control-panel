@@ -6,7 +6,7 @@
 class mqtt_tempconv : public mosqpp::mosquittopp
 {
 	public:
-		mqtt_tempconv(const char *id, const char *host, int port);
+		mqtt_tempconv();
 		~mqtt_tempconv();
 
 		void on_connect(int rc);

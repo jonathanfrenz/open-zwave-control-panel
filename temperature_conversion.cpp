@@ -4,7 +4,7 @@
 #include "temperature_conversion.h"
 #include <mosquittopp.h>
 
-mqtt_tempconv::mqtt_tempconv() : mosquittopp("myid")
+mqtt_tempconv::mqtt_tempconv() : mosquittopp("dumb id")
 {
 	int keepalive = 60;
 
