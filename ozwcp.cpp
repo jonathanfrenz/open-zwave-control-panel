@@ -59,6 +59,7 @@
 
 using namespace OpenZWave;
 
+class mqtt_tempconv *tempconv;
 static Webserver *wserver;
 pthread_mutex_t nlock = PTHREAD_MUTEX_INITIALIZER;
 MyNode *nodes[MAX_NODES];
@@ -462,6 +463,7 @@ uint8 MyNode::getRemoved()
 	return 0;
 }
 
+char[200] msgbuf;
 //-----------------------------------------------------------------------------
 // <OnNotification>
 // Callback that is triggered when a value, group or node changes
@@ -497,6 +499,10 @@ void OnNotification (Notification const* _notification, void* _context)
 					_notification->GetHomeId(), _notification->GetNodeId(),
 					valueGenreStr(id.GetGenre()), cclassStr(id.GetCommandClassId()), id.GetInstance(),
 					id.GetIndex(), valueTypeStr(id.GetType()));
+					
+			sprintf(msgbuf, "%d %s %s", _notification->GetNodeId(), cclassStr(id.GetCommandClassId()), valueTypeStr(id.GetType()));
+			tempconv->publish(NULL, "test/cool", strlen(msgbuf), msgbuf);
+			
 			pthread_mutex_lock(&nlock);
 			nodes[_notification->GetNodeId()]->saveValue(id);
 			pthread_mutex_unlock(&nlock);
@@ -506,6 +512,10 @@ void OnNotification (Notification const* _notification, void* _context)
 					_notification->GetHomeId(), _notification->GetNodeId(),
 					valueGenreStr(id.GetGenre()), cclassStr(id.GetCommandClassId()), id.GetInstance(),
 					id.GetIndex(), valueTypeStr(id.GetType()));
+					
+			sprintf(msgbuf, "%d %s %s", _notification->GetNodeId(), cclassStr(id.GetCommandClassId()), valueTypeStr(id.GetType()));
+			tempconv->publish(NULL, "test/cool", strlen(msgbuf), msgbuf);
+			
 			pthread_mutex_lock(&nlock);
 			nodes[_notification->GetNodeId()]->setTime(time(NULL));
 			nodes[_notification->GetNodeId()]->setChanged(true);
@@ -774,7 +784,6 @@ int32 main(int32 argc, char* argv[])
 	extern char *optarg;
 	long webport = DEFAULT_PORT;
 	char *ptr;
-	class mqtt_tempconv *tempconv;
 	int rc;
 
 	while ((i = getopt(argc, argv, "dp:")) != EOF)
