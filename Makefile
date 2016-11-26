@@ -61,7 +61,7 @@ ifeq ($(LIBZWAVE),)
 	@exit 1
 endif
 
-ozwcp.o: ozwcp.h webserver.h $(OPENZWAVE)/cpp/src/Options.h $(OPENZWAVE)/cpp/src/Manager.h \
+ozwcp.o: temperature_conversion.h ozwcp.h webserver.h $(OPENZWAVE)/cpp/src/Options.h $(OPENZWAVE)/cpp/src/Manager.h \
 	$(OPENZWAVE)/cpp/src/Node.h $(OPENZWAVE)/cpp/src/Group.h \
 	$(OPENZWAVE)/cpp/src/Notification.h $(OPENZWAVE)/cpp/src/platform/Log.h
 
@@ -69,7 +69,7 @@ webserver.o: webserver.h ozwcp.h $(OPENZWAVE)/cpp/src/Options.h $(OPENZWAVE)/cpp
 	$(OPENZWAVE)/cpp/src/Node.h $(OPENZWAVE)/cpp/src/Group.h \
 	$(OPENZWAVE)/cpp/src/Notification.h $(OPENZWAVE)/cpp/src/platform/Log.h
 
-ozwcp:	ozwcp.o webserver.o zwavelib.o $(LIBZWAVE)
+ozwcp:	temperature_conversion.o ozwcp.o webserver.o zwavelib.o $(LIBZWAVE)
 	$(LD) -o $@ $(LDFLAGS) ozwcp.o webserver.o zwavelib.o $(LIBS)
 
 mqtt_temperature_conversion : main.o temperature_conversion.o
