@@ -16,6 +16,8 @@ The code is very new, as is the library, so bugs will be present. This tool
 will allow the basic use of Z-Wave devices as well as help push forward the
 development of the OpenZWave library.
 
+Use this: https://lickthesalt.com/2016/04/11/compiling-open-zwave-control-panel-on-a-raspberry-pi-3/
+
 INSTALLATION
 
 To install ozwcp, visit http://code.google.com/p/openzwave-control-panel/
