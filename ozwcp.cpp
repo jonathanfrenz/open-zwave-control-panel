@@ -798,6 +798,7 @@ int32 main(int32 argc, char* argv[])
 	Manager::Create();
 	wserver = new Webserver(webport);
 	Manager::Get()->AddWatcher(OnNotification, wserver);
+	Manager::Get()->AddDriver("/dev/ttyUSB0");
 
 	while (!wserver->isReady()) {
 		delete wserver;
