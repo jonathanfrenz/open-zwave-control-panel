@@ -1202,6 +1202,7 @@ int Webserver::Handler (struct MHD_Connection *conn, const char *url,
 				MyValue *val = MyNode::lookup(string((char *)cp->conn_arg1));
 				if (val != NULL) {
 					string arg = (char *)cp->conn_arg2;
+					fprintf(stderr, "Setting value  %d %s", val->getId(), arg.c_str());
 					if (!Manager::Get()->SetValue(val->getId(), arg))
 						fprintf(stderr, "SetValue string failed type=%s\n", valueTypeStr(val->getId().GetType()));
 				} else {
