@@ -812,7 +812,6 @@ int32 main(int32 argc, char* argv[])
 	Manager::Create();
 	wserver = new Webserver(webport);
 	Manager::Get()->AddWatcher(OnNotification, wserver);
-	Manager::Get()->AddDriver("/dev/ttyUSB0");
 
 	mosqpp::lib_init();
 
@@ -823,6 +822,8 @@ int32 main(int32 argc, char* argv[])
 		sleep(2);
 		wserver = new Webserver(webport);
 	}
+	
+	Manager::Get()->AddDriver("/dev/ttyUSB0");
 
 	while (!done) {	// now wait until we are done
 		sleep(1);
