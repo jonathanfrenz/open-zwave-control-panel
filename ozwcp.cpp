@@ -516,7 +516,7 @@ void OnNotification (Notification const* _notification, void* _context)
 					
 			Manager::Get()->GetValueAsString(id, &into);
 			sprintf(msgbuf, "%d %s %d %s\n", _notification->GetNodeId(), cclassStr(id.GetCommandClassId()), id.GetIndex(), into.c_str());
-			tempconv->publish(NULL, "iot/test", strlen(msgbuf), msgbuf);
+			tempconv->publish(NULL, "iot/up", strlen(msgbuf), msgbuf);
 			
 			pthread_mutex_lock(&nlock);
 			nodes[_notification->GetNodeId()]->saveValue(id);
@@ -530,7 +530,7 @@ void OnNotification (Notification const* _notification, void* _context)
 					
 			Manager::Get()->GetValueAsString(id, &into);
 			sprintf(msgbuf, "%d %s %d %s\n", _notification->GetNodeId(), cclassStr(id.GetCommandClassId()), id.GetIndex(), into.c_str());
-			tempconv->publish(NULL, "iot/test", strlen(msgbuf), msgbuf);
+			tempconv->publish(NULL, "iot/up", strlen(msgbuf), msgbuf);
 			
 			pthread_mutex_lock(&nlock);
 			nodes[_notification->GetNodeId()]->setTime(time(NULL));
