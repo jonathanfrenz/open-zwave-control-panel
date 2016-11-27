@@ -2,11 +2,12 @@
 #define TEMPERATURE_CONVERSION_H
 
 #include <mosquittopp.h>
+#include <string>
 
 class mqtt_tempconv : public mosqpp::mosquittopp
 {
 	public:
-		mqtt_tempconv();
+		mqtt_tempconv(void (*onMsg)(std::string, std::string));
 		~mqtt_tempconv();
 
 		void on_connect(int rc);

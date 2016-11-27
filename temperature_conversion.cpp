@@ -8,11 +8,13 @@
 #include <mosquittopp.h>
 #include <fstream>
 
-extern void onIncomingMessage(string conn_arg1, string arg);
+void (*onIncomingMessage)(std::string, std::string);
 
-mqtt_tempconv::mqtt_tempconv() : mosquittopp("dumb id")
+mqtt_tempconv::mqtt_tempconv(void (*onMsg)(std::string, std::string)) : mosquittopp("dumb id")
 {
 	int keepalive = 60;
+	
+	onIncomingMessage = onMsg;
 
 	printf("Got to first part here\n");
 	std::ifstream filein("userpass.txt");
@@ -74,7 +76,7 @@ void mqtt_tempconv::on_message(const struct mosquitto_message *message)
 		memcpy(buf, message->payload, 50*sizeof(char));
 		printf("Got: %s\n", buf);
 		
-		std::vector<std::string> splits = split(string(buf),  '\n');
+		std::vector<std::string> splits = split(std::string(buf),  '\n');
 		if (splits.size == 2)
 		{
 			onIncomingMessage(splits[0], splits[1]);
