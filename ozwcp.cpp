@@ -463,6 +463,18 @@ uint8 MyNode::getRemoved()
 	return 0;
 }
 
+void onIncomingMessage(std::string conn_arg1, std::string arg)
+{
+	MyValue *val = MyNode::lookup(conn_arg1);
+	if (val != NULL) {
+		fprintf(stderr, "Setting value  %s %s\n", conn_arg1.c_str(), arg.c_str());
+		if (!Manager::Get()->SetValue(val->getId(), arg))
+			fprintf(stderr, "SetValue string failed type=%s\n", valueTypeStr(val->getId().GetType()));
+	} else {
+		fprintf(stderr, "Can't find ValueID for %s\n", conn_arg1.c_str());
+	}
+}
+
 //-----------------------------------------------------------------------------
 // <OnNotification>
 // Callback that is triggered when a value, group or node changes
@@ -503,7 +515,7 @@ void OnNotification (Notification const* _notification, void* _context)
 					id.GetIndex(), valueTypeStr(id.GetType()));
 					
 			Manager::Get()->GetValueAsString(id, &into);
-			sprintf(msgbuf, "%d %s %d %s", _notification->GetNodeId(), cclassStr(id.GetCommandClassId()), id.GetIndex(), into.c_str());
+			sprintf(msgbuf, "%d %s %d %s\n", _notification->GetNodeId(), cclassStr(id.GetCommandClassId()), id.GetIndex(), into.c_str());
 			tempconv->publish(NULL, "iot/test", strlen(msgbuf), msgbuf);
 			
 			pthread_mutex_lock(&nlock);
@@ -517,7 +529,7 @@ void OnNotification (Notification const* _notification, void* _context)
 					id.GetIndex(), valueTypeStr(id.GetType()));
 					
 			Manager::Get()->GetValueAsString(id, &into);
-			sprintf(msgbuf, "%d %s %d %s", _notification->GetNodeId(), cclassStr(id.GetCommandClassId()), id.GetIndex(), into.c_str());
+			sprintf(msgbuf, "%d %s %d %s\n", _notification->GetNodeId(), cclassStr(id.GetCommandClassId()), id.GetIndex(), into.c_str());
 			tempconv->publish(NULL, "iot/test", strlen(msgbuf), msgbuf);
 			
 			pthread_mutex_lock(&nlock);
@@ -818,7 +830,7 @@ int32 main(int32 argc, char* argv[])
 
 	mosqpp::lib_init();
 
-	tempconv = new mqtt_tempconv();
+	tempconv = new mqtt_tempconv(onIncomingMessage);
 		
 	while (!wserver->isReady()) {
 		delete wserver;
