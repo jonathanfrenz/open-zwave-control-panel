@@ -77,7 +77,7 @@ void mqtt_tempconv::on_message(const struct mosquitto_message *message)
 		printf("Got: %s\n", buf);
 		
 		std::vector<std::string> splits = split(std::string(buf),  '\n');
-		if (splits.size == 2)
+		if (splits.size() == 2)
 		{
 			onIncomingMessage(splits[0], splits[1]);
 		}
