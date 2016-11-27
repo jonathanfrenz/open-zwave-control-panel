@@ -801,6 +801,7 @@ int32 main(int32 argc, char* argv[])
 	long webport = DEFAULT_PORT;
 	char *ptr;
 	int rc;
+	bool addedDriverYet = false;
 
 	while ((i = getopt(argc, argv, "dp:")) != EOF)
 		switch (i) {
@@ -837,12 +838,18 @@ int32 main(int32 argc, char* argv[])
 		sleep(2);
 		wserver = new Webserver(webport);
 	}
-	
-	//Manager::Get()->AddDriver("/dev/ttyUSB0");
 
 	while (!done) {	// now wait until we are done
 		sleep(1);
 		
+		if (!addedDriverYet)
+		{
+			if (tempconv->isReady())
+			{
+				Manager::Get()->AddDriver("/dev/ttyUSB0");
+				addedDriverYet = true;
+			}
+		}
 		rc = tempconv->loop();
 		if(rc){
 			tempconv->reconnect();

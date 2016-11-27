@@ -10,6 +10,8 @@
 
 void (*onIncomingMessage)(std::string, std::string);
 
+bool bisReady = false;
+
 mqtt_tempconv::mqtt_tempconv(void (*onMsg)(std::string, std::string)) : mosquittopp("dumb id")
 {
 	int keepalive = 60;
@@ -65,6 +67,11 @@ std::vector<std::string> split(const std::string &s, char delim) {
     return elems;
 }
 
+bool mqtt_tempconv::isReady()
+{
+	return bisReady;
+}
+
 void mqtt_tempconv::on_message(const struct mosquitto_message *message)
 {
 	char buf[51];
@@ -80,6 +87,10 @@ void mqtt_tempconv::on_message(const struct mosquitto_message *message)
 		if (splits.size() == 2)
 		{
 			onIncomingMessage(splits[0], splits[1]);
+		}
+		else
+		{
+			printf("Couldn't parse message");
 		}
 		//temp_celsius = atof(buf);
 		//temp_farenheit = temp_celsius*9.0/5.0 + 32.0;
@@ -100,5 +111,7 @@ void mqtt_tempconv::on_message(const struct mosquitto_message *message)
 void mqtt_tempconv::on_subscribe(int mid, int qos_count, const int *granted_qos)
 {
 	printf("Subscription succeeded.\n");
+	
+	bisReady = true;
 }
 
