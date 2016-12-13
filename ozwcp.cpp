@@ -481,8 +481,11 @@ void onIncomingMessage(std::string conn_arg1, std::string arg)
 //-----------------------------------------------------------------------------
 void OnNotification (Notification const* _notification, void* _context)
 {
+	char timebuffer[80];
 	char msgbuf[200];
 	string into;
+	time_t rawtime;
+	struct tm * timeinfo;
 	
 	ValueID id = _notification->GetValueID();
 	switch (_notification->GetType()) {
@@ -515,7 +518,10 @@ void OnNotification (Notification const* _notification, void* _context)
 					id.GetIndex(), valueTypeStr(id.GetType()));
 					
 			Manager::Get()->GetValueAsString(id, &into);
-			sprintf(msgbuf, "%d %s %d %s\n", _notification->GetNodeId(), cclassStr(id.GetCommandClassId()), id.GetIndex(), into.c_str());
+			time(&rawtime);
+			timeinfo = gmtime(&rawtime);
+			strftime(timebuffer,80,"%d-%m-%Y %I:%M:%S",timeinfo);
+			sprintf(msgbuf, "%s	%d	%s	%d	%s", timebuffer, _notification->GetNodeId(), cclassStr(id.GetCommandClassId()), id.GetIndex(), into.c_str());
 			tempconv->publish(NULL, "iot/up", strlen(msgbuf), msgbuf);
 			
 			pthread_mutex_lock(&nlock);
@@ -529,7 +535,10 @@ void OnNotification (Notification const* _notification, void* _context)
 					id.GetIndex(), valueTypeStr(id.GetType()));
 					
 			Manager::Get()->GetValueAsString(id, &into);
-			sprintf(msgbuf, "%d %s %d %s\n", _notification->GetNodeId(), cclassStr(id.GetCommandClassId()), id.GetIndex(), into.c_str());
+			time(&rawtime);
+			timeinfo = gmtime(&rawtime);
+			strftime(timebuffer,80,"%d-%m-%Y %I:%M:%S",timeinfo);
+			sprintf(msgbuf, "%s	%d	%s	%d	%s", timebuffer, _notification->GetNodeId(), cclassStr(id.GetCommandClassId()), id.GetIndex(), into.c_str());
 			tempconv->publish(NULL, "iot/up", strlen(msgbuf), msgbuf);
 			
 			pthread_mutex_lock(&nlock);
