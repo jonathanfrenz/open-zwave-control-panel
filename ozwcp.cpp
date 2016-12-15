@@ -520,7 +520,7 @@ void OnNotification (Notification const* _notification, void* _context)
 			Manager::Get()->GetValueAsString(id, &into);
 			time(&rawtime);
 			timeinfo = gmtime(&rawtime);
-			strftime(timebuffer,80,"%d-%m-%Y %I:%M:%S",timeinfo);
+			strftime(timebuffer,80,"%Y-%m-%d %H-%M-%S",timeinfo);
 			sprintf(msgbuf, "%s	%d	%s	%d	%s", timebuffer, _notification->GetNodeId(), cclassStr(id.GetCommandClassId()), id.GetIndex(), into.c_str());
 			tempconv->publish(NULL, "iot/up", strlen(msgbuf), msgbuf);
 			
@@ -537,7 +537,7 @@ void OnNotification (Notification const* _notification, void* _context)
 			Manager::Get()->GetValueAsString(id, &into);
 			time(&rawtime);
 			timeinfo = gmtime(&rawtime);
-			strftime(timebuffer,80,"%d-%m-%Y %I:%M:%S",timeinfo);
+			strftime(timebuffer,80,"%Y-%m-%d %H-%M-%S",timeinfo);
 			sprintf(msgbuf, "%s	%d	%s	%d	%s", timebuffer, _notification->GetNodeId(), cclassStr(id.GetCommandClassId()), id.GetIndex(), into.c_str());
 			tempconv->publish(NULL, "iot/up", strlen(msgbuf), msgbuf);
 			
